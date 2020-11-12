@@ -39,9 +39,43 @@ Airplane.prototype.land = function () {
         + It should return a string with `name` and `age`. Example: "Mary, 50"
 */
 
-function Person() {
+function Person(name, age) {
+  this.name = name;
+  this.age = age;
+  this.stomach = [];
 
 }
+
+Person.prototype.eat = function(edible){
+  if(this.stomach.length < 10){
+    this.stomach.push(edible);
+  }
+}
+
+Person.prototype.poop = function(){
+  this.stomach = []
+}
+Person.prototype.toString = function(){
+return `${this.name}, ${this.age}`
+}
+
+const personOne = new Person('Adam', 25);
+const personTwo = new Person('Amy', 28);
+const personThree = new Person('Richard', 64);
+
+console.log(personOne.toString());
+console.log(personTwo.toString())
+console.log(personThree.toString())
+
+personOne.eat('tacos');
+personTwo.eat('sushi')
+personThree.eat('pizza')
+
+personOne.poop();
+personTwo.poop();
+personThree.poop();
+
+
 
 /*
   TASK 2
@@ -57,8 +91,19 @@ function Person() {
         + The `drive` method should return a string "I ran out of fuel at x miles!" x being `odometer`.
 */
 
-function Car() {
+function Car(model, milesPerGallon) {
+  this.model = model;
+  this.milesPerGallon = milesPerGallon;
+  this.tank = 0;
+  this.odometer = 0;
+}
+Car.prototype.fill = function(gallons){
+  this.tank += gallons;
+}
+Car.prototype.drive = function(distance){
+  this.odometer+= distance -1;
 
+  let distanceDriven = (distance/this.milesPerGallon);
 }
 
 /*
@@ -68,18 +113,31 @@ function Car() {
     - Besides the methods on Person.prototype, babies have the ability to `.play()`:
         + Should return a string "Playing with x", x being the favorite toy.
 */
-function Baby() {
+function Baby(name, age, favoriteToy) {
+  Person.call(this, name, age);
+  this.favoriteToy = favoriteToy;
 
 }
 
+Baby.prototype = Object.create(Person.prototype);
+
+const babyOne = new Person({
+  name: 'Ronald',
+  age: 1,
+  favoriteToy: "Ray Gun"
+});
+
+Baby.prototype.play = function(){
+  return `Playing with ${this.favoriteToy}`
+}
 /* 
   TASK 4
 
   In your own words explain the four principles for the "this" keyword below:
-  1. 
-  2. 
-  3. 
-  4. 
+  1. window binding - calls from global scope, if not strictly bound, will return undefined errors
+  2. implicit binding - whatever's left of the period, 
+  3. explicit binding - has three methods of use, .call, .apply, and Bind. call passes arguments in one by one, apply passes them as an array, and bind passes them in one by one, but creates them as a new function that can be reused later
+  4. new binding - makes constructors point to parameters within newly created objects
 */
 
 
